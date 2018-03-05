@@ -1,4 +1,4 @@
-# */10    *       *       *       *       sh dba/check_outbound_message.sh 'central-uat-master.cpenagls1m4q.us-west-2.rds.amazonaws.com' 5432 central_shared_uat >> /home/postgres/dba/outbound_central_prod.log 2>&1
+# */10    *       *       *       *       sh dba/check_outbound_message.sh '<Host>' <Port> <DBname> >> /home/postgres/dba/outbound_central_prod.log 2>&1
 BINDIR=/usr/bin
 HOST=$1
 T_PORT=$2
