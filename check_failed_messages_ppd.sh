@@ -12,19 +12,19 @@ exit_prog() {
         exit $1
 }
 
-outbound_messages=`psql -h $HOST -U dbmaintain $DATABASE -c "select customer_name, environment_name, count(*) from em_001.outbound_messages where status = 'trying' and created_at < (CURRENT_TIMESTAMP - INTERVAL '2 hour') group by customer_name, environment_name;" -t`
+outbound_messages=`psql -h $HOST -U skshirsagar $DATABASE -c "select count(*) from em_001.outbound_messages where status = 'failure' and customer_name = 'PPD Production';" -t`
 
 if [ -z "$outbound_messages" ];
 then
 
-        echo ">> No un-processed messages found. Exiting..."
+        echo ">> No failed messages found. Exiting..."
                 echo
 else
 
-        echo "There are un-processed messages found: "
+        echo "There are failed messages found for PPD: "
         echo
         echo "$outbound_messages"
-	echo "$outbound_messages" | /usr/bin/mail -s "There are un-processed outbound messages found on $HOST" critical_event_message@gobalto.com 
+	echo "$outbound_messages" | /usr/bin/mail -s "There are failed outbound messages for PPD " cx@gobalto.com 
 #	echo "$outbound_messages" | /usr/bin/mail -s "There are un-processed outbound messages found on $HOST" swanand.kshirsagar@openscg.com 
         echo "Exiting...."
         exit_prog 0
